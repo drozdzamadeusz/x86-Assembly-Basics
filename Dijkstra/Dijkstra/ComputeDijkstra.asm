@@ -2,7 +2,7 @@
 
 .data
 
-INFINITY dword 9999
+INFINITY	dword 9999
 
 mindistance dword ?
 nextnode	dword ?
@@ -25,11 +25,9 @@ DijkstraASM		proc
 
 				mov edi, [ebp + 20]			; edi = cost matrix
 				mov eax, [INFINITY]			; x  = 0
-				rep stosd					; fill cost matrix with INFINITY
+				rep stosd					; init cost matrix with INFINITY
 											;									STOSD (Store String)			-> Store EAX at address EDI,
 											;									REP (Repeat String Instruction) -> Repeat operation the number of times in the ECX (by decrementing it)
-
-
 
 
 				mov ebx, [ebp + 8]			; ebx = graph array
@@ -96,17 +94,18 @@ DijkstraASM		proc
 
 
 
-				mov ecx, [ebp + 12]
+				mov ecx, [ebp + 12]			; set counter for rep
 
 				mov edi, [ebp + 28]			; init pred with start_node
-				mov eax, [ebp + 16]			; 
-				rep stosd					; 
+				mov eax, [ebp + 16]			; eax = startnode
+				rep stosd					; pred arrray = { startnode };
 
-				mov ecx, [ebp + 12]
+
+				mov ecx, [ebp + 12]			; set counter for rep
 
 				mov edi, [ebp + 32]			; init visited with zeros 
-				xor eax, eax				;
-				rep stosd					; 
+				xor eax, eax				; eax = 0
+				rep stosd					; visited array = {0};
 
 
 
@@ -163,21 +162,18 @@ DijkstraASM		proc
 
 
 
-					mov ebx, 1
+					mov ebx, 1							; ebx = 1
+					mov ecx, [ebp + 32]					; Pointer to visited array
+					mov [ecx + eax * 4], ebx			; visited[nextnode] = 1;	
 
-					mov ecx, [ebp + 32]	; visited
+					mov eax, nextnode					;  EAX -> nextnode
 
-					mov eax, nextnode
-					mov [ecx + eax * 4], ebx
+						xor edi, edi					; edi = index
 
-
-
-						xor edi, edi
-
-						InnerLoop1:									; EDX -> mindistance				 EAX -> nextnode
+						InnerLoop1:
 
 							
-						mov ecx, [ebp + 32]							; pointer to visited array	
+						mov ecx, [ebp + 32]							; Pointer to visited array	
 						mov ebx, [ecx + edi * 4]					; EBX = element in visited array
 
 						test ebx, ebx								; test EBX
@@ -194,16 +190,16 @@ DijkstraASM		proc
 						mov ebx, [edx + ecx * 4]					; EBX = Element of corresponding element in cost array
 
 
-						mov edx, mindistance						; Roll back pointer to nextnode variable
-						add ebx, edx								; EBX = cost + mindistance
+						;mov edx, mindistance						; Roll back pointer to nextnode variable
+						add ebx, mindistance						; EBX = cost + mindistance
 						
 
-						mov edx, [ebp + 24]							; pointer to distance array
+						mov edx, [ebp + 24]							; Pointer to distance array
 						mov ecx, [edx + edi * 4]					; single element in distance array
 						cmp ecx, ebx								; mindistance + cost[k] < distance[i]							
 						jl InnerLoop1End
 						
-						mov edx, [ebp + 24]							; Pointer to distance array
+						;mov edx, [ebp + 24]						; Pointer to distance array
 						mov [edx + edi * 4], ebx					; distance[i] = mindistance + cost[k];
 
 						;mov eax, nextnode

@@ -167,7 +167,7 @@ int main()
 
 	int const number_of_vertices = 9;
 
-	int const starting_node = 6;
+	int const starting_node = 8;
 
 	int graph[number_of_vertices][number_of_vertices] = { { 0,    1,      0,      1,      0,      0,      0,      0,      0 },
 														{ 1,    0,      1,      0,      0,      0,      0,      0,      0 },
@@ -247,7 +247,7 @@ int main()
 	}
 
 
-	printf(" \n distance");
+	printf(" \n distance: \n");
 
 	for (int j = 0; j < number_of_vertices; j++) {
 
