@@ -183,7 +183,7 @@ DijkstraASM		proc
 						test ebx, ebx								; test EBX
 						jnz InnerLoop1End							; If current EBX is equal to 0 then omit further instructions
 
-						mov eax, nextnode							; Roll back pointer to nextnode variable
+						;mov eax, nextnode							; Roll back pointer to nextnode variable
 						mov ecx, eax								; ECX = nextnode
 
 						imul ecx, [ebp + 12]						; ECX = nextnode * number_of_vertices
@@ -198,17 +198,17 @@ DijkstraASM		proc
 						add ebx, edx								; EBX = cost + mindistance
 						
 
-						mov edx, [ebp + 24]							;			 distance
-						mov eax, [edx + edi * 4]
-						cmp eax, ebx
+						mov edx, [ebp + 24]							; pointer to distance array
+						mov ecx, [edx + edi * 4						; single element in distance array
+						cmp ecx, ebx								; mindistance + cost[k] < distance[i]							
 						jl InnerLoop1End
 						
-						mov edx, [ebp + 24]
-						mov [edx + edi * 4], ebx
+						mov edx, [ebp + 24]							; Pointer to distance array
+						mov [edx + edi * 4], ebx					; distance[i] = mindistance + cost[k];
 
-						mov eax, nextnode
-						mov edx, [ebp + 28]
-						mov [edx + edi * 4], eax
+						;mov eax, nextnode
+						mov edx, [ebp + 28]							; Pointer to pred array
+						mov [edx + edi * 4], eax					; pred[i] = nextnode;
 
 
 						InnerLoop1End:
