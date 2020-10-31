@@ -199,7 +199,7 @@ DijkstraASM		proc
 						
 
 						mov edx, [ebp + 24]							; pointer to distance array
-						mov ecx, [edx + edi * 4						; single element in distance array
+						mov ecx, [edx + edi * 4]					; single element in distance array
 						cmp ecx, ebx								; mindistance + cost[k] < distance[i]							
 						jl InnerLoop1End
 						
