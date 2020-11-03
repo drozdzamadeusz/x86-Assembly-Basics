@@ -266,7 +266,7 @@ int main()
 
 		printf(" \n");
 	}
-
+	*/
 	printf(" \n visited_vertices: \n");
 
 	for (int j = 0; j < number_of_vertices; j++) {
@@ -291,7 +291,7 @@ int main()
 
 		printf("%5d\t", distance[j]);
 
-	}*/
+	}
 
 
 	printf(" \n result");
