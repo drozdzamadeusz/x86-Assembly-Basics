@@ -233,7 +233,8 @@ int main()
 
 	*/
 
-	int const starting_node = 418;
+	int const starting_node = 0;
+	int const ending_node = 4;
 
 	auto start = std::chrono::steady_clock::now();
 
@@ -320,7 +321,7 @@ int main()
 	 j = 0;
 	
 
-	int target = 479;
+	int target = ending_node;
 		if (target != starting_node)
 		{
 			printf("\nDistance of node%d=%d", target, distance[target]);
